@@ -1,0 +1,32 @@
+:root.dark {
+  /* 基础颜色 */
+  --bg-color: #18181A;
+  --text-color: #F5F5F7;
+  --text-color2: #18181A;
+  --primary-color: #7d56fc;
+  --primary-color-hover: #9c87fe;
+  --primary-color-active: #d3cfff;
+
+  /* 色阶 */
+  --color-1: #0F0F10;
+  /* 最深，用于主背景 */
+  --color-2: #1C1C1E;
+  /* 次背景，如卡片、弹窗 */
+  --color-3: #2C2C2E;
+  /* 边框、分割线 */
+  --color-4: #3A3A3C;
+  /* 按钮背景、悬浮效果 */
+  --color-5: #4D4D4F;
+  /* 图标、次要文本 */
+  --color-6: #636366;
+  /* 普通文本、图标 */
+  --color-7: #8E8E93;
+  /* 最亮，用于标题、强调文字 */
+}
+
+
+body {
+  transition: background-color 0.3s, color 0.3s;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
