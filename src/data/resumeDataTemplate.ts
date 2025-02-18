@@ -7,7 +7,6 @@ export const resumeTemplate = {
     email: '',            // 电子邮箱
     university: '',        // 所在大学
     politicalStatus: '',  // 政治面貌
-    address: '',          // 地址
     website: '',           // 个人网站
     avatar: ''            // 头像
   },
@@ -21,7 +20,6 @@ export const resumeTemplate = {
       major: '',          // 专业
       startDate: '',      // 开始时间
       endDate: '',        // 结束时间
-      description: ''     // 描述（如成绩、获奖等）
     }
   ],
 
@@ -41,8 +39,7 @@ export const resumeTemplate = {
   skills: [
     {
       id: 3,              // 唯一标识
-      skillName: '',      // 技能名称
-      level: ''           // 熟练程度（如初级、中级、高级）
+      skillName: ''      // 技能名称
     }
   ],
 
@@ -55,7 +52,6 @@ export const resumeTemplate = {
       startDate: '',      // 开始时间
       endDate: '',        // 结束时间
       description: '',    // 项目描述
-      achievements: ''    // 成果
     }
   ],
   // 荣誉奖项

@@ -12,6 +12,7 @@ const settingsStore = useSettingsStore();
 onMounted(() => {
   const resumeStore = useResumeStore();
   resumeStore.initializeCurrentId();
+  // 初始化当前id
   settingsStore.initTheme();
 });
 </script>

@@ -3,9 +3,7 @@
     <a-collapse-panel key="1" header="个人总结">
       <a-space direction="vertical" style="width: 100%">
         <!-- 姓名、联系电话同行 -->
-
         <a-textarea v-model:value="summary" placeholder="请输入个人总结" :auto-size="{ minRows: 2, maxRows: 5 }" />
-
       </a-space>
     </a-collapse-panel>
   </a-collapse>

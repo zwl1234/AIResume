@@ -2,7 +2,7 @@
   <a-collapse v-model:activeKey="activeKey" class="personal-info-collapse">
     <a-collapse-panel key="1" header="个人信息" class="personal-info-panel">
       <a-space direction="vertical" style="width: 100%" class="personal-info-space ">
-        <!-- 姓名、联系电话同行 -->
+        <!-- 姓名、联系电话-->
         <a-row gutter="24">
           <a-col :span="12">
             <a-input v-model:value="personalInfo.name" placeholder="请输入姓名" addonBefore="姓名" />
@@ -12,7 +12,7 @@
           </a-col>
         </a-row>
 
-        <!-- 电子邮箱、所在大学同行 -->
+        <!-- 电子邮箱、所在大学-->
         <a-row gutter="24">
           <a-col :span="12">
             <a-input v-model:value="personalInfo.email" placeholder="请输入电子邮箱" addonBefore="电子邮箱" />
@@ -22,7 +22,7 @@
           </a-col>
         </a-row>
 
-        <!-- 政治面貌、性别同行，占满宽度 -->
+        <!-- 政治面貌、性别 -->
         <a-row gutter="24">
           <a-col :span="12">
             <a-select v-model:value="personalInfo.politicalStatus" placeholder="请选择政治面貌" :options="politicalOptions"
@@ -34,7 +34,7 @@
           </a-col>
         </a-row>
 
-        <!-- 地址、个人网站 -->
+        <!-- 个人网站 -->
         <a-input v-model:value="personalInfo.website" placeholder="请输入个人网站" addonBefore="个人网站" />
 
         <!-- 头像上传 (base64) -->

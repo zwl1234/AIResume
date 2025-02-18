@@ -20,22 +20,20 @@ export interface Education {
   major: string;
   startDate: string;
   endDate: string;
-  description: string;
 }
 
 export interface WorkExperience {
   id: number;
   company: string;
   position: string;
-  startDate: string;
-  endDate: string;
+  startDate: string | null;
+  endDate: string | null;
   description: string;
 }
 
 export interface Skill {
   id: number;
   skillName: string;
-  level: string;
 }
 
 export interface Project {
@@ -45,7 +43,6 @@ export interface Project {
   startDate: string;
   endDate: string;
   description: string;
-  achievements: string;
 }
 
 export interface Honor {
@@ -71,8 +68,10 @@ export const useResumeStore = defineStore('resume', {
     // 从 localStorage 获取保存的数据
     const savedResumeData = localStorage.getItem('resumeData');
     const savedCurrentId = localStorage.getItem('currentId');
+    const currentId = savedCurrentId && !isNaN(Number(savedCurrentId))
+      ? Number(savedCurrentId)
+      : 1;
     const resumeData = savedResumeData ? JSON.parse(savedResumeData) : resumeTemplate;
-    const currentId = savedCurrentId ? JSON.parse(savedCurrentId) : 1;  // 默认 id 为 1
     return {
       ...resumeData,  // 恢复之前保存的 resumeData
       currentId,
@@ -208,7 +207,14 @@ export const useResumeStore = defineStore('resume', {
     // 更新荣誉奖项
     updateHonor(updatedItem: Honor) {
       this.updateItem(this.honors, updatedItem);
-    }
+    },
+
+    loadFromLocalStorage() {
+      const stored = localStorage.getItem('resumeStore');
+      if (stored) {
+        this.$state = JSON.parse(stored);
+      }
+    },
   }
 });
 
