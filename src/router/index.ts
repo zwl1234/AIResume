@@ -5,17 +5,20 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'resume',
-    component: () => import('@/views/resume/index.vue')
+    component: () => import('@/views/resume/index.vue'),
+    meta: { title: 'AI简历 - 简历制作' }
   },
   {
     path: '/resumeDesign',
     name: 'resumeDesign',
-    component: () => import('@/views/resumeDesign/index.vue')
+    component: () => import('@/views/resumeDesign/index.vue'),
+    meta: { title: 'AI简历 - 简历设计' }
   },
   {
     path: '/template',
     name: 'template',
-    component: () => import('@/views/template/index.vue')
+    component: () => import('@/views/template/index.vue'),
+    meta: { title: 'AI简历 - 简历模板' }
   }
 ];
 
@@ -24,5 +27,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL), // 使用 HTML5 历史模式
   routes
 });
-
+router.afterEach((to) => {
+  document.title = (to.meta?.title as string) || '默认标题';
+});
 export default router;

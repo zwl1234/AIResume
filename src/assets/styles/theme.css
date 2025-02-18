@@ -6,7 +6,7 @@
 
 :root {
   /* 基础颜色 */
-  --bg-color: #ffffff;
+  --bg-color: #F3F0FE;
   --text-color: #000000;
   --text-color2: #ffffff;
   --primary-color: #672DEA;
@@ -35,4 +35,6 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: 'zql';
+  transition: all 0.3s;
+  box-sizing: border-box;
 }

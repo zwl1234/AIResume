@@ -1,9 +1,9 @@
 :root.dark {
   /* 基础颜色 */
-  --bg-color: #18181A;
+  --bg-color: #1A1A1A;
   --text-color: #F5F5F7;
   --text-color2: #18181A;
-  --primary-color: #7d56fc;
+  --primary-color: #656565;
   --primary-color-hover: #9c87fe;
   --primary-color-active: #d3cfff;
 
@@ -29,4 +29,7 @@ body {
   transition: background-color 0.3s, color 0.3s;
   background-color: var(--bg-color);
   color: var(--text-color);
+  font-family: 'zql';
+  transition: all 0.3s;
+  box-sizing: border-box;
 }

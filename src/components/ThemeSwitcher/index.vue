@@ -1,28 +1,25 @@
+<script setup lang="ts">
+import { onMounted, computed } from 'vue';
+import SvgIcon from "../SvgIcon.vue";
+import { useSettingsStore } from "../../store/useSettingsStore";
+
+const settingsStore = useSettingsStore();
+const isDark = computed(() => settingsStore.isDark);
+const toggleTheme = () => {
+  settingsStore.toggleTheme();
+};
+
+onMounted(() => {
+  settingsStore.initTheme();
+});
+</script>
+
 <template>
   <button @click="toggleTheme">
     <SvgIcon :iconName="isDark ? 'white' : 'dark'" className="theme_box"></SvgIcon>
   </button>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import SvgIcon from "../SvgIcon.vue";
-const isDark = ref(false);
-
-const toggleTheme = () => {
-  isDark.value = !isDark.value;
-  document.documentElement.classList.toggle('dark', isDark.value);
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
-};
-
-onMounted(() => {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    isDark.value = true;
-    document.documentElement.classList.add('dark');
-  }
-});
-</script>
 <style scoped>
 button {
   position: fixed;

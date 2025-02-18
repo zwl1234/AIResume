@@ -17,5 +17,6 @@ import './assets/styles/dark.css';
 const app = createApp(App);
 app.use(router);
 app.use(createPinia());
+
 app.use(Antd);
 app.mount('#app');
