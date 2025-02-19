@@ -1,22 +1,127 @@
 <template>
+
+  <div class="setting">
+    <!-- 选择模板 -->
+    <a-select v-model:value="selectedTemplateId" @change="handleTemplateChange" style="width: 150px;">
+      <a-select-option v-for="item in templates" :key="item.id" :value="item.id">
+        {{ item.name }}
+      </a-select-option>
+    </a-select>
+    <!-- 切换主题色 -->
+    <input class="changeColor" type="color" v-model="themeColor"
+      @change="(e) => handleThemeChange((e.target as HTMLInputElement).value)" />
+
+    <!-- 导出按钮 -->
+    <a-button type="primary">导出</a-button>
+  </div>
   <div class="preview" ref="resumePreview" @mousedown="startDragging" @wheel.prevent="handleZoom">
     <div class="resume-content" :style="contentStyle">
-      <!-- 替换为实际的简历内容 -->
-      <templateA />
+      <!-- 简历内容 -->
+      <!-- <templateA /> -->
+      <!-- 动态渲染当前选中的模板组件 -->
+      <component :is="currentComponent" :theme-color="themeColor" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { ref, reactive, computed, onMounted, onBeforeUnmount, nextTick, watch, defineAsyncComponent } from "vue";
 import templateA from "../../../template/templateA/index.vue";
+import { getTemplates } from "../../../utils/getTemplates";
+import type { Template } from "../../../types/template";
+// 引入模板存储中的数据和方法
+import { useTemplateStore } from "../../../store";
+
+
+
+// 动态导入所有模板组件
+const templateModules = import.meta.glob('../../../template/**/index.vue');
+
+// 模板列表
+const templates = ref<Template[]>([]);
+// 当前选中的模板 ID
+const selectedTemplateId = ref<string | null>(null);
+// 主题色（从 Pinia 中获取）
+const templateStore = useTemplateStore();
+const themeColor = computed({
+  get: () => templateStore.themeColor,
+  set: (value) => templateStore.setThemeColor(value),
+});
+
+// 当前渲染的组件
+const currentComponent = ref();
+
+// 获取并初始化模板列表
+onMounted(async () => {
+  try {
+    templates.value = await getTemplates();
+    // 如果 Pinia 中有已选中的模板，则恢复
+    if (templateStore.currentTemplate) {
+      selectedTemplateId.value = templateStore.currentTemplate.id;
+    } else if (templates.value.length > 0) {
+      // 否则默认选中第一个模板
+      selectedTemplateId.value = templates.value[0].id;
+      templateStore.setTemplate(templates.value[0]);
+    }
+    loadCurrentTemplate();
+  } catch (error) {
+    console.error('获取模板列表失败:', error);
+  }
+});
+
+// 监听 selectedTemplateId 的变化，以加载对应的组件
+watch(selectedTemplateId, (newId) => {
+  handleTemplateChange(newId);
+});
+
+// 处理模板切换
+const handleTemplateChange = (id: string | null) => {
+  if (!id) return;
+  const selectedTemplate = templates.value.find(t => t.id === id);
+  if (selectedTemplate) {
+    templateStore.setTemplate(selectedTemplate);
+    loadCurrentTemplate();
+  }
+};
+
+// 加载当前选中的模板组件
+const loadCurrentTemplate = () => {
+  const selectedTemplate = templateStore.currentTemplate;
+  if (selectedTemplate?.folderPath) {
+    const folderName = selectedTemplate.folderPath.split('/').pop();
+    if (!folderName) {
+      console.error('模板路径错误:', selectedTemplate.folderPath);
+      return;
+    }
+    const importPath = `../../../template/${folderName}/index.vue`;
+    const importFunc = templateModules[importPath];
+    if (importFunc) {
+      currentComponent.value = defineAsyncComponent(() => importFunc() as Promise<typeof import('*.vue')['default']>);
+    } else {
+      console.error(`未找到路径为 ${importPath} 的组件`);
+    }
+  }
+};
+
+// 处理主题色变化
+const handleThemeChange = (color: string) => {
+  templateStore.setThemeColor(color);
+};
+
+
+// 初始化函数，在组件挂载时调用
+onMounted(() => {
+  updateBounds();
+  window.addEventListener("resize", updateBounds);
+});
+
 
 // 获取预览容器的引用
 const resumePreview = ref<HTMLElement | null>(null);
 
 // 定义拖拽和缩放的状态
 const state = reactive({
-  scale: 0.55,           // 当前缩放比例
+  scale: 0.6,           // 当前缩放比例
   translateX: 0,      // 当前水平位移
   translateY: 0,      // 当前垂直位移
   dragging: false,    // 是否正在拖拽
@@ -55,7 +160,7 @@ const handleZoom = (event: WheelEvent) => {
     // 放大，限制最大缩放比例为3倍
     state.scale = Math.min(state.scale + zoomSpeed, 3);
   } else {
-    // 缩小，限制最小缩放比例为0.5倍
+    // 缩小，限制最小缩放比例为0.2倍
     state.scale = Math.max(state.scale - zoomSpeed, 0.2);
   }
 
@@ -74,21 +179,21 @@ const handleZoom = (event: WheelEvent) => {
   updateBounds();
 };
 
-// 限制拖动范围，确保至少 30% 的内容在预览区域内
+// 限制拖动范围，确保至少 10% 的内容在预览区域内
 const limitTranslation = () => {
   // 计算缩放后的内容尺寸
   const scaledContentWidth = state.contentWidth * state.scale;
   const scaledContentHeight = state.contentHeight * state.scale;
 
-  // 计算至少 30% 的内容需要保持可见
-  const minVisibleX = scaledContentWidth * 0.3 / 2;
-  const minVisibleY = scaledContentHeight * 0.3 / 2;
+  // 计算至少 10% 的内容需要保持可见
+  const minVisibleX = scaledContentWidth * 0.1 / 2;
+  const minVisibleY = scaledContentHeight * 0.1 / 2;
 
   // 计算预览容器的边界
-  const previewLeft = -state.previewWidth / 2 + minVisibleX;
-  const previewRight = state.previewWidth / 2 - minVisibleX;
-  const previewTop = -state.previewHeight / 2 + minVisibleY;
-  const previewBottom = state.previewHeight / 2 - minVisibleY;
+  const previewLeft = -state.previewWidth / 1.2 + minVisibleX;
+  const previewRight = state.previewWidth / 1.2 - minVisibleX;
+  const previewTop = -state.previewHeight / 1.2 + minVisibleY;
+  const previewBottom = state.previewHeight / 1.2 - minVisibleY;
 
   // 确保平移不会超过边界
   state.translateX = Math.min(previewRight, Math.max(state.translateX, previewLeft));
@@ -142,11 +247,7 @@ const contentStyle = computed(() => ({
   transition: state.dragging ? "none" : "transform 0.2s ease",
 }));
 
-// 初始化函数，在组件挂载时调用
-onMounted(() => {
-  updateBounds();
-  window.addEventListener("resize", updateBounds);
-});
+
 
 // 组件销毁前移除事件监听
 onBeforeUnmount(() => {
@@ -177,9 +278,40 @@ onBeforeUnmount(() => {
   cursor: grabbing;
 }
 
+.setting {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  padding: 10px;
+  box-shadow: 0 4px 18px rgb(167 167 167 / 40%);
+  background-color: #ffffff3b;
+  backdrop-filter: blur(2px) saturate(180%);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+}
+
+/* 美化切换颜色 */
+.changeColor {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  outline: none;
+  transition: background-color 0.3s;
+}
+
 /* 简历内容的样式 */
 .resume-content {
-  position: absolute;
+  position: relative;
+  z-index: 1;
   top: 50%;
   /* 初始垂直居中 */
   left: 50%;

@@ -1,5 +1,6 @@
 <template>
   <div class="resume-container">
+    我的
     <!-- 个人信息 -->
     <div class="personal-info">
       <div class="personal-details">
