@@ -19,7 +19,7 @@
       <!-- 简历内容 -->
       <!-- <templateA /> -->
       <!-- 动态渲染当前选中的模板组件 -->
-      <component :is="currentComponent" :theme-color="themeColor" />
+      <component :is="currentComponent" :colorShades="colorShades" />
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ import { getTemplates } from "../../../utils/getTemplates";
 import type { Template } from "../../../types/template";
 // 引入模板存储中的数据和方法
 import { useTemplateStore } from "../../../store";
-
+import { generateColorShades } from "../../../utils/colorUtils";
 
 
 // 动态导入所有模板组件
@@ -50,6 +50,14 @@ const themeColor = computed({
 
 // 当前渲染的组件
 const currentComponent = ref();
+// 生成的色阶对象
+const colorShades = ref(generateColorShades(themeColor.value));
+
+// 监听 themeColor 变化，自动更新色阶
+watch(themeColor, (newColor) => {
+  colorShades.value = generateColorShades(newColor);
+}, { immediate: true });
+
 
 // 获取并初始化模板列表
 onMounted(async () => {

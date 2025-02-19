@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "es2020", // 或者 "esnext"、"node16" 等
+    "moduleResolution": "node", // 推荐使用 node 模块解析方式
     "target": "esnext",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@/*": [
-        "./src/*"
+        "src/*"
       ]
     }
   },

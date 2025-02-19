@@ -1,16 +1,23 @@
 [
   {
     "id": "template111111",
-    "name": "简洁模板",
+    "name": "简洁模板1",
     "description": "简约而不简单的简历模板。",
     "folderPath": "/src/template/templateA",
     "thumbnail": "preview.jpg"
   },
   {
     "id": "template222222",
-    "name": "简洁模板22222",
-    "description": "简约而不简单的简历模板。22",
+    "name": "简洁模板2",
+    "description": "简约而不简单的简历模板。",
     "folderPath": "/src/template/templateB",
+    "thumbnail": "preview.jpg"
+  },
+  {
+    "id": "template33333",
+    "name": "开发版本",
+    "description": "供开发者参考开发的模板。",
+    "folderPath": "/src/template/templateC",
     "thumbnail": "preview.jpg"
   }
 ]

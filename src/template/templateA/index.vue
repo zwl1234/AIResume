@@ -1,5 +1,5 @@
 <template>
-  <div class="resume-container">
+  <div class="resume-container" :style="colorShadesStyle">
     <!-- 个人信息 -->
     <div class="personal-info">
       <div class="personal-details">
@@ -93,8 +93,8 @@
           <div class="subtitle">
             <div class="work-header">
               <span>{{ work.company }}</span>
-              <span>{{ work.startDate }} 至 {{ work.endDate }}</span>
               <span>{{ work.position }}</span>
+              <span>{{ work.startDate }} 至 {{ work.endDate }}</span>
             </div>
           </div>
           <ul>
@@ -141,7 +141,23 @@
 <script setup lang="ts">
 import { useResumeStore } from '../../store/useResumeStore';
 import { computed } from 'vue';
+import type { ColorShades } from '../../types/color';
+// 接受父组件主题色
+const props = defineProps<{
+  colorShades: ColorShades;
+}>();
 
+// 动态生成 CSS 变量的样式
+const colorShadesStyle = computed(() => {
+  return {
+    '--color-lighter': props.colorShades.lighter,
+    '--color-light': props.colorShades.light,
+    '--color-base': props.colorShades.base,
+    '--color-dark': props.colorShades.dark,
+    '--color-darker': props.colorShades.darker,
+    '--color-deepest': props.colorShades.deepest
+  };
+});
 // 引入引用的store
 const resumeStore = useResumeStore();
 
@@ -152,4 +168,17 @@ const resume = computed(() => resumeStore.$state);
 <!-- 引入外部css -->
 <style scoped>
 @import './assets/style.css';
+
+/* 颜色相关的css放入style */
+.section-title {
+  width: 100%;
+  color: var(--color-darker);
+  background-color: var(--color-lighter);
+  font-size: 18px;
+  padding: 10px;
+  font-weight: bold;
+  border-left: 5px solid var(--color-base);
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
 </style>

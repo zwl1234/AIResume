@@ -1,156 +1,314 @@
 <template>
-  <div class="resume-container">
-    我的
+  <div class="resume" :style="colorStyles">
     <!-- 个人信息 -->
-    <div class="personal-info">
-      <div class="personal-details">
-        <div class="detail-row">
-          <div class="detail-item name">
-            <span class="value">{{ resume.personalInfo.name }}</span>
+    <section class="personal-section">
+      <div class="personal-info">
+        <h1 class="name">{{ resume.personalInfo.name }}</h1>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">性别：</span>{{ resume.personalInfo.gender }}
           </div>
-          <div class="detail-item">
-            <span class="label">性别：</span>
-            <span class="value">{{ resume.personalInfo.gender }}</span>
+          <div class="info-item">
+            <span class="label">年龄：</span>{{ resume.personalInfo.age }}岁
           </div>
-          <div class="detail-item">
-            <span class="label">年龄：</span>
-            <span class="value">{{ resume.personalInfo.age }}</span>
+          <div class="info-item">
+            <span class="label">政治面貌：</span>{{ resume.personalInfo.politicalStatus }}
           </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-item">
-            <span class="label">政治面貌：</span>
-            <span class="value">{{ resume.personalInfo.politicalStatus }}</span>
+          <div class="info-item">
+            <span class="label">电话：</span>{{ resume.personalInfo.phone }}
           </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-item">
-            <span class="label">电话：</span>
-            <span class="value">{{ resume.personalInfo.phone }}</span>
+          <div class="info-item">
+            <span class="label">邮箱：</span>{{ resume.personalInfo.email }}
           </div>
-          <div class="detail-item">
-            <span class="label">邮箱：</span>
-            <span class="value">{{ resume.personalInfo.email }}</span>
+          <div class="info-item">
+            <span class="label">学校：</span>{{ resume.personalInfo.university }}
           </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-item">
-            <span class="label">学校：</span>
-            <span class="value">{{ resume.personalInfo.university }}</span>
+          <div class="info-item">
+            <span class="label">专业：</span>{{ resume.personalInfo.major }}
           </div>
-          <div class="detail-item">
-            <span class="label">专业：</span>
-            <span class="value">{{ resume.personalInfo.major }}</span>
-          </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-item">
+          <div class="info-item" v-if="resume.personalInfo.website">
             <span class="label">网站：</span>
-            <a :href="resume.personalInfo.website" target="_blank" class="value">{{ resume.personalInfo.website }}</a>
+            <a :href="resume.personalInfo.website" target="_blank">{{ resume.personalInfo.website }}</a>
           </div>
         </div>
       </div>
-      <div class="profile-image">
+      <div class="avatar">
         <img :src="resume.personalInfo.avatar" alt="个人照片">
       </div>
-    </div>
+    </section>
 
-    <!-- 荣誉奖项、复用skills样式 -->
-    <div class="section skills-section" v-if="resume.honors.length">
-      <div class="section-title">荣誉奖项</div>
-      <ul class="skills-list">
+    <!-- 分割线 -->
+    <hr class="section-divider" />
+
+    <!-- 荣誉奖项 -->
+    <section class="section" v-if="resume.honors.length">
+      <h2 class="section-title">荣誉奖项</h2>
+      <ul class="list">
         <li v-for="honor in resume.honors" :key="honor.id">{{ honor.honorName }}</li>
       </ul>
-    </div>
+    </section>
 
-    <!-- 在校经历 -->
-    <div class="section education-section" v-if="resume.education.length">
-      <div class="section-title">教育经历</div>
-      <div class="section-content">
-        <div class="item" v-for="edu in resume.education" :key="edu.id">
-          <p class="school">
-            <span>{{ edu.school }}({{ edu.degree }})</span>
-            <span>{{ edu.major }}</span>
-            <strong v-if="edu.startDate && edu.endDate">{{ edu.startDate }} 至 {{ edu.endDate }}</strong>
-            <!-- 空格 -->
-          </p>
+    <!-- 教育经历 -->
+    <section class="section" v-if="resume.education.length">
+      <h2 class="section-title">教育经历</h2>
+      <div class="experience-list">
+        <div class="experience-item" v-for="edu in resume.education" :key="edu.id">
+          <div class="item-header">
+            <h3 class="institution">{{ edu.school }}</h3>
+            <span class="duration">{{ edu.startDate }} - {{ edu.endDate }}</span>
+          </div>
+          <p class="degree">{{ edu.degree }} - {{ edu.major }}</p>
         </div>
       </div>
-    </div>
-
+    </section>
 
     <!-- 技能特长 -->
-    <div class="section skills-section" v-if="resume.skills.length">
-      <div class="section-title">技能特长</div>
-      <ul class="skills-list">
+    <section class="section" v-if="resume.skills.length">
+      <h2 class="section-title">技能特长</h2>
+      <ul class="skill-list">
         <li v-for="skill in resume.skills" :key="skill.id">{{ skill.skillName }}</li>
       </ul>
-    </div>
+    </section>
+
     <!-- 工作/实习经历 -->
-    <div class="section experience-section" v-if="resume.workExperience.length">
-      <div class="section-title">工作/实习经历</div>
-      <div class="section-content">
-        <div class="item" v-for="work in resume.workExperience" :key="work.id">
-          <div class="subtitle">
-            <div class="work-header">
-              <span>{{ work.company }}</span>
-              <span>{{ work.startDate }} 至 {{ work.endDate }}</span>
-              <span>{{ work.position }}</span>
-            </div>
+    <section class="section" v-if="resume.workExperience.length">
+      <h2 class="section-title">工作/实习经历</h2>
+      <div class="experience-list">
+        <div class="experience-item" v-for="work in resume.workExperience" :key="work.id">
+          <div class="item-header">
+            <h3 class="position">{{ work.position }}</h3>
+            <span class="duration">{{ work.startDate }} - {{ work.endDate }}</span>
           </div>
-          <ul>
+          <p class="company">{{ work.company }}</p>
+          <ul class="description-list">
             <li v-for="(desc, index) in work.description.split('\n')" :key="index">{{ desc }}</li>
           </ul>
         </div>
       </div>
-    </div>
-
-
+    </section>
 
     <!-- 项目经验 -->
-    <div class="section projects-section" v-if="resume.projects.length">
-      <div class="section-title">项目经验</div>
-      <div class="section-content">
-        <div class="item" v-for="project in resume.projects" :key="project.id">
-          <div class="subtitle">
-            <div class="project-header">
-              <span>{{ project.projectName }}</span>
-              <span>{{ project.role }}</span>
-              <span>{{ project.startDate }} <span v-if="project.startDate && project.endDate">至</span> {{
-                project.endDate }}</span>
-            </div>
-            <hr>
-            <p class="project-introduction">{{ project.briefIntroduction }}</p>
+    <section class="section" v-if="resume.projects.length">
+      <h2 class="section-title">项目经验</h2>
+      <div class="experience-list">
+        <div class="experience-item" v-for="project in resume.projects" :key="project.id">
+          <div class="item-header">
+            <h3 class="project-name">{{ project.projectName }}</h3>
+            <span class="duration">{{ project.startDate }} - {{ project.endDate }}</span>
           </div>
-          <ul>
+          <p class="role">角色：{{ project.role }}</p>
+          <p class="project-intro">{{ project.briefIntroduction }}</p>
+          <ul class="description-list">
             <li v-for="(desc, index) in project.description.split('\n')" :key="index">{{ desc }}</li>
           </ul>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- 自我评价 -->
-    <div class="section self-evaluation-section" v-if="resume.summary">
-      <div class="section-title">自我评价</div>
-      <p class="self-evaluation">
+    <section class="section" v-if="resume.summary">
+      <h2 class="section-title">自我评价</h2>
+      <p class="summary">
         {{ resume.summary }}
       </p>
-    </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useResumeStore } from '../../store/useResumeStore';
 import { computed } from 'vue';
+import type { ColorShades } from '../../types/color';
 
-// 引入引用的store
+// 接受父组件主题色
+const props = defineProps<{
+  colorShades: ColorShades;
+}>();
+
+// 动态生成 CSS 变量的样式
+const colorStyles = computed(() => {
+  return {
+    '--primary-color': props.colorShades.base,
+    '--primary-color-light': props.colorShades.light,
+    '--primary-color-dark': props.colorShades.dark,
+    '--text-color': '#333',
+    '--background-color': '#fff',
+    '--section-divider-color': '#eaeaea',
+  };
+});
+
+// 引用的store
 const resumeStore = useResumeStore();
 
-// 使用计算属性来获取store中的数据
+// 获取store中的数据
 const resume = computed(() => resumeStore.$state);
 
 </script>
-<!-- 引入外部css -->
+
 <style scoped>
-@import './assets/style.css';
+.resume {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: 20px 30px;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.personal-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.personal-info {
+  flex: 1;
+}
+
+.name {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--primary-color-dark);
+  margin-bottom: 15px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px 20px;
+}
+
+.info-item {
+  font-size: 14px;
+  color: #555;
+}
+
+.label {
+  font-weight: bold;
+  color: var(--primary-color-dark);
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  margin-left: 30px;
+  flex-shrink: 0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--section-divider-color);
+  margin: 30px 0;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary-color);
+  border-left: 4px solid var(--primary-color);
+  padding-left: 12px;
+  margin-bottom: 15px;
+}
+
+.list,
+.skill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li,
+.skill-list li {
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.list li::before,
+.skill-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.experience-item {
+  position: relative;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.institution,
+.position,
+.project-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--primary-color-dark);
+}
+
+.duration {
+  font-size: 12px;
+  color: #999;
+}
+
+.degree,
+.company,
+.role {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.project-intro {
+  margin-bottom: 5px;
+}
+
+.description-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.description-list li {
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.description-list li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+
+.summary {
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: justify;
+}
 </style>
