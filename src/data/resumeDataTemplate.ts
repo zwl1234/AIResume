@@ -8,7 +8,9 @@ export const resumeTemplate = {
     university: '',        // 所在大学
     politicalStatus: '',  // 政治面貌
     website: '',           // 个人网站
-    avatar: ''            // 头像
+    avatar: '',            // 头像
+    major: '',             // 专业
+    age: '',               // 年龄
   },
 
   // 教育经历
@@ -52,6 +54,7 @@ export const resumeTemplate = {
       startDate: '',      // 开始时间
       endDate: '',        // 结束时间
       description: '',    // 项目描述
+      briefIntroduction: '' // 项目简介
     }
   ],
   // 荣誉奖项

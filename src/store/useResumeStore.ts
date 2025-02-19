@@ -11,6 +11,8 @@ export interface PersonalInfo {
   politicalStatus: string;
   website: string;
   avatar: string;
+  major: string;
+  age: string;
 }
 
 export interface Education {
@@ -42,7 +44,10 @@ export interface Project {
   role: string;
   startDate: string;
   endDate: string;
+  // 项目简介
+  briefIntroduction: string;
   description: string;
+
 }
 
 export interface Honor {

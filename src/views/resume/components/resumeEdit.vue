@@ -6,6 +6,8 @@
     <!-- 教育经历 -->
     <education />
 
+    <!-- 项目经历 -->
+    <project />
     <!-- 工作经历 -->
     <workExperience />
 
@@ -27,6 +29,7 @@ import workExperience from './workExperience.vue';
 import skill from './skill.vue';
 import honor from './honor.vue';
 import selfEvaluation from './selfEvaluation.vue';
+import project from './project.vue';  
 </script>
 
 <style scoped>

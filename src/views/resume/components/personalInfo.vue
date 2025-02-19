@@ -33,6 +33,15 @@
               style="width: 100%;" />
           </a-col>
         </a-row>
+        <!-- 专业、年龄 -->
+        <a-row gutter="24">
+          <a-col :span="12">
+            <a-input v-model:value="personalInfo.major" placeholder="请输入专业" addonBefore="专业" />
+          </a-col>
+          <a-col :span="12">
+            <a-input v-model:value="personalInfo.age" placeholder="请输入年龄" addonBefore="年龄" />
+          </a-col>
+        </a-row>
 
         <!-- 个人网站 -->
         <a-input v-model:value="personalInfo.website" placeholder="请输入个人网站" addonBefore="个人网站" />
