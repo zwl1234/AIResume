@@ -6,7 +6,10 @@
         <div v-for="(work, index) in workExperience" :key="index" class="experience-item">
           <div class="item-header">
             <h4>工作经历 #{{ index + 1 }}</h4>
-            <a-button type="link" danger @click="removeWork(work.id)">删除</a-button>
+            <a-popconfirm title="确定要删除当前技能？" ok-text="删除" cancel-text="取消" @confirm="removeWork(work.id)">
+              <template #icon><question-circle-outlined style="color: red" /></template>
+              <a-button type="link" danger> 删除</a-button>
+            </a-popconfirm>
           </div>
 
           <a-form layout="vertical">
@@ -49,7 +52,8 @@
 import { computed, watch } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { useResumeStore } from '../../../store';
-
+import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
 const resumeStore = useResumeStore();
 const workExperience = computed(() => resumeStore.workExperience);
 
@@ -66,8 +70,8 @@ const addWork = () => {
 
 // 删除工作经历
 const removeWork = (id: number) => {
-  // resumeStore.workExperience.splice(index, 1);
   resumeStore.deleteWorkExperience(id)
+  message.success('工作经历删除成功！');
 };
 
 // 监听变化并保存到 localStorage

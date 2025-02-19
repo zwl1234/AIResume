@@ -6,7 +6,10 @@
         <div v-for="(skill, index) in skills" :key="index" class="skill-item">
           <div class="item-header">
             <h4>技能 #{{ index + 1 }}</h4>
-            <a-button type="link" danger @click="removeSkill(skill.id)">删除</a-button>
+            <a-popconfirm title="确定要删除当前技能？" ok-text="删除" cancel-text="取消" @confirm="removeSkill(skill.id)">
+              <template #icon><question-circle-outlined style="color: red" /></template>
+              <a-button type="link" danger>删除</a-button>
+            </a-popconfirm>
           </div>
 
           <a-form layout="vertical">
@@ -28,6 +31,8 @@
 import { computed, watch } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { useResumeStore } from '../../../store';
+import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
 
 const resumeStore = useResumeStore();
 const skills = computed(() => resumeStore.skills);
@@ -41,8 +46,8 @@ const addSkill = () => {
 
 // 删除技能
 const removeSkill = (id: number) => {
-  // resumeStore.skills.splice(index, 1);
   resumeStore.deleteSkill(id)
+  message.success('技能删除成功！');
 };
 
 // 监听变化并保存到 localStorage

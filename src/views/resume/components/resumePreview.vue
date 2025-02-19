@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed, onMounted, onBeforeUnmount, nextTick, watch, defineAsyncComponent } from "vue";
-import templateA from "../../../template/templateA/index.vue";
+// import templateA from "../../../template/templateA/index.vue";
 import { getTemplates } from "../../../utils/getTemplates";
 import type { Template } from "../../../types/template";
 // 引入模板存储中的数据和方法
@@ -102,6 +102,7 @@ const loadCurrentTemplate = () => {
     }
   }
 };
+
 
 // 处理主题色变化
 const handleThemeChange = (color: string) => {

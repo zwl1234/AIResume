@@ -6,7 +6,10 @@
         <div v-for="(honor, index) in honors" :key="index" class="honor-item">
           <div class="item-header">
             <h4>荣誉 #{{ index + 1 }}</h4>
-            <a-button type="link" danger @click="removeHonor(honor.id)">删除</a-button>
+            <a-popconfirm title="确定要删除当前荣誉奖项？" ok-text="删除" cancel-text="取消" @confirm="removeHonor(honor.id)">
+              <template #icon><question-circle-outlined style="color: red" /></template>
+              <a-button type="link" danger>删除</a-button>
+            </a-popconfirm>
           </div>
 
           <a-form layout="vertical">
@@ -39,7 +42,8 @@
 import { computed, watch } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { useResumeStore } from '../../../store';
-
+import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
 const resumeStore = useResumeStore();
 const honors = computed(() => resumeStore.honors);
 console.log(honors.value)
@@ -54,9 +58,8 @@ const addHonor = () => {
 
 // 删除荣誉 - 修正删除方法
 const removeHonor = (id: number) => {
-
-  // resumeStore.honors.splice(id, 1)
   resumeStore.deleteHonor(id)
+  message.success('荣誉奖项删除成功！');
 };
 
 // 监听变化并保存到 localStorage
