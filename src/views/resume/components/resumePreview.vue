@@ -12,12 +12,10 @@
       @change="(e) => handleThemeChange((e.target as HTMLInputElement).value)" />
 
     <!-- 导出按钮 -->
-    <a-button type="primary">导出</a-button>
+    <a-button type="primary" @click="exportToPDF">导出</a-button>
   </div>
   <div class="preview" ref="resumePreview" @mousedown="startDragging" @wheel.prevent="handleZoom">
     <div class="resume-content" :style="contentStyle">
-      <!-- 简历内容 -->
-      <!-- <templateA /> -->
       <!-- 动态渲染当前选中的模板组件 -->
       <component :is="currentComponent" :colorShades="colorShades" />
     </div>
@@ -26,37 +24,44 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed, onMounted, onBeforeUnmount, nextTick, watch, defineAsyncComponent } from "vue";
-// import templateA from "../../../template/templateA/index.vue";
 import { getTemplates } from "../../../utils/getTemplates";
 import type { Template } from "../../../types/template";
 // 引入模板存储中的数据和方法
 import { useTemplateStore } from "../../../store";
 import { generateColorShades } from "../../../utils/colorUtils";
+import html2pdf from "html2pdf.js";
+import { createApp } from 'vue';
+
+// 主题色部分功能
+const templateStore = useTemplateStore();
+const themeColor = computed({
+  get: () => templateStore.themeColor,
+  set: (value) => templateStore.setThemeColor(value),
+});
+// 生成的色阶对象
+const colorShades = ref(generateColorShades(themeColor.value));
+// 监听 themeColor 变化，自动更新色阶
+watch(themeColor, (newColor) => {
+  colorShades.value = generateColorShades(newColor);
+}, { immediate: true });
+// 处理主题色变化
+const handleThemeChange = (color: string) => {
+  templateStore.setThemeColor(color);
+};
 
 
+
+
+
+// 多模板切换部分功能
 // 动态导入所有模板组件
 const templateModules = import.meta.glob('../../../template/**/index.vue');
 // 模板列表
 const templates = ref<Template[]>([]);
 // 当前选中的模板 ID
 const selectedTemplateId = ref<string | null>(null);
-// 主题色（从 Pinia 中获取）
-const templateStore = useTemplateStore();
-const themeColor = computed({
-  get: () => templateStore.themeColor,
-  set: (value) => templateStore.setThemeColor(value),
-});
-
 // 当前渲染的组件
 const currentComponent = ref();
-// 生成的色阶对象
-const colorShades = ref(generateColorShades(themeColor.value));
-
-// 监听 themeColor 变化，自动更新色阶
-watch(themeColor, (newColor) => {
-  colorShades.value = generateColorShades(newColor);
-}, { immediate: true });
-
 
 // 获取并初始化模板列表
 onMounted(async () => {
@@ -111,19 +116,62 @@ const loadCurrentTemplate = () => {
 };
 
 
-// 处理主题色变化
-const handleThemeChange = (color: string) => {
-  templateStore.setThemeColor(color);
+// 导出简历为 PDF
+const exportToPDF = async () => {
+  // 等待模板渲染完成
+  await nextTick();
+
+  // 创建一个新的容器来渲染简历内容
+  const tempContainer = document.createElement("div");
+  tempContainer.style.position = "absolute";
+  tempContainer.style.top = "-9999px"; // 隐藏容器
+  document.body.appendChild(tempContainer);
+
+  // 获取当前选中的模板内容并渲染到新容器中
+  const content = document.createElement("div");
+  content.classList.add("resume-content");
+
+  // 渲染当前模板的内容
+  const selectedTemplate = templateStore.currentTemplate;
+  if (selectedTemplate?.folderPath) {
+    const importPath = `../../../template/${selectedTemplate.folderPath}/index.vue`;
+
+    import(importPath).then(async (module) => {
+      const Component = module.default;
+      // 使用 Vue 的 createApp 方法来挂载组件
+      const app = createApp(Component, {
+        // 将需要传递给组件的 props（例如颜色）传递进去
+        colorShades: colorShades.value,
+      });
+      // 挂载组件
+      app.mount(content);
+      // 将渲染的内容添加到临时容器中
+      tempContainer.appendChild(content);
+      // 等待渲染完成后再生成 PDF
+      await nextTick();
+      // 设置 A4 尺寸，并渲染为 PDF
+      const options = {
+        filename: "resume.pdf",
+        margin: 0,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      };
+      html2pdf().from(content).set(options).save().finally(() => {
+        // 清理临时容器
+        document.body.removeChild(tempContainer);
+      });
+    });
+  }
 };
 
 
+// 简历预览拖拽事件功能
 // 初始化函数，在组件挂载时调用
 onMounted(() => {
   updateBounds();
   window.addEventListener("resize", updateBounds);
 });
-
-
 // 获取预览容器的引用
 const resumePreview = ref<HTMLElement | null>(null);
 
@@ -148,6 +196,8 @@ const updateBounds = async () => {
   if (resumePreview.value) {
     const container = resumePreview.value;
     const content = container.querySelector(".resume-content") as HTMLElement;
+
+
     if (content) {
       state.previewWidth = container.clientWidth;
       state.previewHeight = container.clientHeight;
@@ -264,78 +314,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* 预览区域的样式 */
-.preview {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  /* 隐藏超出部分 */
-  background-color: var(--color-7);
-  /* 背景颜色 */
-  cursor: grab;
-  /* 拖拽手型光标 */
-  user-select: none;
-  /* 禁止文本选中 */
-  /* border: 1px solid #000; */
-  /* 边框以更明显地看到区域 */
-}
-
-/* 当预览区域被点击时更改光标 */
-.preview:active {
-  cursor: grabbing;
-}
-
-.setting {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 999;
-  padding: 10px;
-  box-shadow: 0 4px 18px rgb(167 167 167 / 40%);
-  background-color: #ffffff3b;
-  backdrop-filter: blur(2px) saturate(180%);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-
-}
-
-/* 美化切换颜色 */
-.changeColor {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  padding: 0;
-  margin: 0 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  outline: none;
-  transition: background-color 0.3s;
-}
-
-/* 简历内容的样式 */
-.resume-content {
-  position: relative;
-  z-index: 1;
-  top: 50%;
-  /* 初始垂直居中 */
-  left: 50%;
-  /* 初始水平居中 */
-  width: 794px;
-  /* 内容宽度，可根据实际情况调整 */
-  min-height: 1123px;
-  /* border: 1px solid #000; */
-  background-color: white;
-  color: black;
-  /* 模拟纸张阴影 */
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
-  /* 内容高度，可根据实际情况调整 */
-  /* background-color: var(--bg-color);
-  display: flex;
-  justify-content: center;
-  align-items: center; */
-}
+/* 导入外部css */
+@import '../styles/styles.css';
 </style>

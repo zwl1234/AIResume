@@ -19,7 +19,7 @@ p {
 
 .resume-container {
   max-width: 960px;
-  padding: 20px 30px;
+  padding: 20px 30px 3px 30px;
   background-color: #ffffff;
   border-radius: 10px;
   box-sizing: border-box;
