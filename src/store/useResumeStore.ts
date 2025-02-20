@@ -1,6 +1,7 @@
 // src/store/useResumeStore.ts
 import { defineStore } from 'pinia';
 import { resumeTemplate } from '../data/resumeDataTemplate.ts';
+import { message } from 'ant-design-vue';
 // 定义类型
 export interface PersonalInfo {
   name: string;
@@ -95,7 +96,55 @@ export const useResumeStore = defineStore('resume', {
       this.currentId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
       localStorage.setItem('currentId', JSON.stringify(this.currentId));
     },
+    // 导出数据
+    exportData() {
+      const dataStr = JSON.stringify(this.$state, null, 2); // 格式化 JSON 以便可读
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
 
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume_data.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
+    // 导入数据
+    importData(file: File) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const jsonData = JSON.parse(event.target?.result as string);
+          this.$state = jsonData; // 直接覆盖 Pinia 状态
+          this.saveToLocalStorage(); // 保存到 localStorage
+          message.success('数据导入成功！');
+        } catch (error) {
+          message.error('数据解析失败，请检查文件格式！');
+        }
+      };
+      reader.readAsText(file);
+    },
+    // 清空
+    clearData() {
+      // 重置数据
+      Object.assign(this.$state, JSON.parse(JSON.stringify(resumeTemplate))); // 彻底重置数据
+      this.currentId = 1; // 重置 ID 计数
+      this.saveToLocalStorage(); // 更新 localStorage
+      message.success('数据已清空');
+    },
+    // 自动填充数据
+    async autoFillData() {
+      try {
+        const response = await fetch('/resumeData.json');
+        const data = await response.json();
+        this.$state = data;
+        this.saveToLocalStorage();
+        message.success('数据已自动填充');
+      } catch (error) {
+        message.error('加载数据失败');
+      }
+    },
     // 保存到 localStorage
     saveToLocalStorage() {
       localStorage.setItem('resumeData', JSON.stringify(this.$state));
