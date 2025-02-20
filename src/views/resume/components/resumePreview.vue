@@ -36,7 +36,6 @@ import { generateColorShades } from "../../../utils/colorUtils";
 
 // 动态导入所有模板组件
 const templateModules = import.meta.glob('../../../template/**/index.vue');
-
 // 模板列表
 const templates = ref<Template[]>([]);
 // 当前选中的模板 ID
@@ -96,7 +95,7 @@ const handleTemplateChange = (id: string | null) => {
 const loadCurrentTemplate = () => {
   const selectedTemplate = templateStore.currentTemplate;
   if (selectedTemplate?.folderPath) {
-    const folderName = selectedTemplate.folderPath.split('/').pop();
+    const folderName = selectedTemplate.folderPath;
     if (!folderName) {
       console.error('模板路径错误:', selectedTemplate.folderPath);
       return;

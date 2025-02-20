@@ -1,4 +1,3 @@
-// src/utils/getTemplates.ts
 import type { Template } from '../types/template';
 
 export const getTemplates = async (): Promise<Template[]> => {
