@@ -4,7 +4,6 @@ import ThemeSwitcher from './components/ThemeSwitcher/index.vue';
 import { useResumeStore } from './store/useResumeStore';
 import { useSettingsStore } from './store/useSettingsStore';
 import { onMounted } from 'vue';
-
 // 获取 Pinia 的 store 实例
 const settingsStore = useSettingsStore();
 

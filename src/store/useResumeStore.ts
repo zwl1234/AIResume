@@ -13,6 +13,7 @@ export interface PersonalInfo {
   website: string;
   avatar: string;
   major: string;
+  applicationPosition: string;
   age: string;
 }
 

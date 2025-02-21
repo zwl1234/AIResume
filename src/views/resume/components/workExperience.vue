@@ -33,8 +33,15 @@
               </a-col>
             </a-row>
 
-            <a-textarea v-model:value="work.description" placeholder="请输入工作描述" :auto-size="{ minRows: 2, maxRows: 5 }"
-              style="margin-top: 16px" />
+            <AIEnhancePopover :description="`请帮我润色和优化以下内容，是我简历中的过往工作描述，
+                    使其更加简洁、专业和吸引面试官，
+                    你返回的内容换行表示一个要点，不用md语法，不要隔行，
+                    层次清晰分明：\n${work.description}`" @update="(content: string) => work.description = content">
+              <a-textarea v-model:value="work.description" placeholder="请输入工作描述" :auto-size="{ minRows: 2, maxRows: 5 }"
+                style="margin-top: 16px" />
+            </AIEnhancePopover>
+
+
           </a-form>
           <a-divider v-if="index !== workExperience.length - 1" />
         </div>
@@ -53,6 +60,7 @@ import { computed, watch } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { useResumeStore } from '../../../store';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+import AIEnhancePopover from './AIEnhancePopover.vue';
 import { message } from 'ant-design-vue';
 const resumeStore = useResumeStore();
 const workExperience = computed(() => resumeStore.workExperience);

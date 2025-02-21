@@ -33,10 +33,23 @@
               </a-col>
             </a-row>
             <!-- 项目简介 -->
-            <a-textarea v-model:value="project.briefIntroduction" placeholder="请输入项目简介" addon-before="项目简介" rows="4"
-              style="margin-top: 16px" />
-            <a-textarea v-model:value="project.description" placeholder="请输入项目描述" addon-before="描述" rows="4"
-              style="margin-top: 16px" />
+            <AIEnhancePopover :description="`请帮我润色和优化以下内容，是我简历中的项目简介
+                    使其更加简洁、专业和吸引面试官，不用md语法，
+                    层次清晰分明：${project.briefIntroduction}`"
+              @update="(content: string) => project.briefIntroduction = content">
+              <a-textarea v-model:value="project.briefIntroduction" placeholder="请输入项目简介" addon-before="项目简介" rows="4"
+                style="margin-top: 16px" />
+            </AIEnhancePopover>
+
+
+
+            <AIEnhancePopover :description="`请帮我润色和优化以下内容，是我简历中的项目要点，
+                    使其更加简洁、专业和吸引面试官，
+                    你返回的内容换行表示一个要点，不用md语法，不要隔行，
+                    层次清晰分明：\n${project.description}`" @update="(content: string) => project.description = content">
+              <a-textarea v-model:value="project.description" placeholder="请输入项目描述" addon-before="描述" rows="4"
+                style="margin-top: 16px" />
+            </AIEnhancePopover>
           </a-form>
           <a-divider v-if="index !== projects.length - 1" />
         </div>
@@ -56,6 +69,7 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 import { useResumeStore } from '../../../store';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
+import AIEnhancePopover from './AIEnhancePopover.vue';
 // 引入 Ant Design 的图标
 // 确保在主文件（如 main.ts）中全局注册了图标或在需要的地方单独注册
 

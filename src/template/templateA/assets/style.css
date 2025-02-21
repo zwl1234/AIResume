@@ -136,6 +136,8 @@ p {
 
 .section-content .item {
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .section-content .item .subtitle {
@@ -162,6 +164,7 @@ p {
 }
 
 .section-content .item ul {
+  margin: 0;
   padding-left: 20px;
 }
 

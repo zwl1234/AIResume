@@ -12,7 +12,7 @@
       @change="(e) => handleThemeChange((e.target as HTMLInputElement).value)" />
 
     <!-- 导出按钮 -->
-    <a-button type="primary" @click="exportToPDF">导出</a-button>
+    <a-button type="primary" @click="exportToPDF">导出PDF</a-button>
   </div>
   <div class="preview" ref="resumePreview" @mousedown="startDragging" @wheel.prevent="handleZoom">
     <div class="resume-content" :style="contentStyle">
@@ -143,6 +143,7 @@ const exportToPDF = async () => {
         // 将需要传递给组件的 props（例如颜色）传递进去
         colorShades: colorShades.value,
       });
+
       // 挂载组件
       app.mount(content);
       // 将渲染的内容添加到临时容器中

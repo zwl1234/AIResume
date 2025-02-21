@@ -89,7 +89,6 @@ const handleFileUpload = (file: File) => {
 .right {
   width: 62%;
   height: 100vh;
-  background-color: #06ec85;
   position: relative;
   /* 添加 */
   overflow: hidden;

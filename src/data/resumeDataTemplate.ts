@@ -11,6 +11,7 @@ export const resumeTemplate = {
     avatar: '',            // 头像
     major: '',             // 专业
     age: '',               // 年龄
+    applicationPosition: '' // 申请职位
   },
 
   // 教育经历
