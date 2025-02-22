@@ -11,7 +11,15 @@
           <a-button type="primary" @click="$router.push('/')">
             返回首页
           </a-button>
+          <a-button @click="handleFeedback">
+            功能反馈
+          </a-button>
         </a-space>
+      </template>
+      <template #description>
+        <p class="description">
+          预计发布时间：{{ releaseDate }}
+        </p>
       </template>
     </a-result>
   </div>
@@ -19,8 +27,13 @@
 
 <script setup lang="ts">
 import { LoadingOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
 
+const releaseDate = '2024年Q2';
 
+const handleFeedback = () => {
+  message.success('感谢您的关注，我们会加快开发进度！');
+};
 </script>
 
 <style scoped>

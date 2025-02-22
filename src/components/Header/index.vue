@@ -8,20 +8,26 @@
           <span class="logo-text">轨迹——全能简历平台</span>
         </li> -->
         <!-- vuerouter路由跳转 -->
-        <li><router-link to="/">简历制作</router-link></li>
+        <li><router-link to="/">
+            <SvgIcon iconName="resume" />
+            简历制作
+          </router-link></li>
         <li><router-link to="/resumeDesign">简历模板设计</router-link></li>
-        <li><router-link to="/template">模板市场</router-link></li>
+        <li><router-link to="/template">
+            <SvgIcon iconName="templateStore" />
+            模板市场
+          </router-link></li>
+        <li><router-link to="/setting">
+            <SvgIcon iconName="setting" />
+            网站配置
+          </router-link></li>
       </ul>
     </nav>
   </header>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'Header',
-});
+<script setup lang="ts">
+import SvgIcon from '../SvgIcon.vue';
 </script>
 
 <style scoped>
