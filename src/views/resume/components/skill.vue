@@ -13,7 +13,13 @@
           </div>
 
           <a-form layout="vertical">
-            <a-input v-model:value="skill.skillName" placeholder="请输入技能名称" addonBefore="技能" />
+            <AIEnhancePopover :description="`请帮我润色和优化以下内容，是我简历中的技能描述，
+                    使其更加简洁、专业和吸引面试官，不要多余的文字说明：\n${skill.skillName}`" :extend="`下面这个是我简历中的技能描述，我可以从哪些方面扩展优化？你的回复用文本就行，不需要md语法，给我一些思路：
+                    \n${skill.skillName}`" @update="(content: string) => skill.skillName = content">
+              <a-input v-model:value="skill.skillName" placeholder="请输入技能名称" addonBefore="技能" />
+            </AIEnhancePopover>
+
+
           </a-form>
           <a-divider v-if="index !== skills.length - 1" />
         </div>
@@ -33,6 +39,7 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 import { useResumeStore } from '../../../store';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
+import AIEnhancePopover from './AIEnhancePopover.vue';
 
 const resumeStore = useResumeStore();
 const skills = computed(() => resumeStore.skills);

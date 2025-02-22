@@ -1,6 +1,6 @@
 export async function sendToQwenAI(prompt: string, onResponse: (responseText: string, isComplete: boolean) => void): Promise<void> {
   const API_URL = "https://ai.2911396166.workers.dev/"; // Cloudflare Workers 代理
-  const userApiKey = "sk-e001472871c3655e"; // ⚠️ 你应该让用户输入
+  const userApiKey = "sk-e001472871c347d5bbae4e693423655e"; // ⚠️ 你应该让用户输入
 
   const requestData = {
     model: "qwen-turbo",

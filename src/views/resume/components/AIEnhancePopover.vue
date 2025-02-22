@@ -8,6 +8,7 @@ const resumeStore = useResumeStore();
 const personalInfo = computed(() => resumeStore.personalInfo);
 const props = defineProps({
   description: String,
+  extend: String
 });
 
 const emit = defineEmits<{
@@ -16,10 +17,11 @@ const emit = defineEmits<{
 
 const AIReply = ref("");
 const loading = ref(false);
+const AIextent = ref(false);
 
 const showTitle = computed(() => {
   if (!props.description || props.description.length < 5) {
-    return "请输入更多信息后可使用 AI 润色功能";
+    return "请输入更多信息后可使用 AI 功能";
   }
   return "AI 润色";
 });
@@ -30,15 +32,15 @@ const buildPrompt = (text: string) => {
   ${text}`;
 };
 
-const handleAiEnhance = async () => {
-  if (!props.description || props.description.length < 5) return;
-
+// 发送给 AI 处理
+const handleAiEnhance = async (Prompt: string, isExtend: boolean) => {
+  if (!Prompt || Prompt.length < 5) return;
+  AIextent.value = isExtend;
   loading.value = true;
   AIReply.value = ""; // 清空上一次的结果
-
   try {
     await sendToQwenAI(
-      buildPrompt(props.description),
+      buildPrompt(Prompt),
       (text, isComplete) => {
         AIReply.value = text;
         if (isComplete) {
@@ -64,17 +66,19 @@ const handleApply = () => {
   <a-popover :title="showTitle" trigger="click" placement="right" arrowPointAtCenter="true">
     <template #content v-if="description && description.length > 4">
       <div class="ai-controls">
-        <a-button type="primary" @click="handleAiEnhance" :loading="loading">
+        <a-button type="primary" @click="handleAiEnhance(description, false)" :loading="loading &&
+          !AIextent" :disabled="loading && AIextent">
           AI 润色
         </a-button>
-        <a-button type="primary">扩展方向</a-button>
+        <a-button type="primary" @click="extend && handleAiEnhance(extend, true)" :loading="loading && AIextent"
+          :disabled="loading && !AIextent">扩展方向</a-button>
       </div>
 
       <div class="ai-content">
         <a-spin :spinning="loading">
           <div v-if="AIReply" class="ai-reply">
             {{ AIReply }}
-            <div class="apply-button">
+            <div class="apply-button" v-if="!AIextent">
               <a-button type="link" size="small" @click="handleApply">
                 <template #icon>
                   <check-outlined />
@@ -86,7 +90,6 @@ const handleApply = () => {
         </a-spin>
       </div>
     </template>
-
     <slot />
   </a-popover>
 </template>
@@ -110,7 +113,7 @@ const handleApply = () => {
   line-height: 1.6;
   font-size: 14px;
   padding: 12px;
-  background-color: #f5f5f500;
+  background-color: #f5f5f5;
   border-radius: 4px;
   max-height: 400px;
   overflow-y: auto;

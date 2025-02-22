@@ -35,7 +35,8 @@
             <!-- 项目简介 -->
             <AIEnhancePopover :description="`请帮我润色和优化以下内容，是我简历中的项目简介
                     使其更加简洁、专业和吸引面试官，不用md语法，
-                    层次清晰分明：${project.briefIntroduction}`"
+                    层次清晰分明：${project.briefIntroduction}`" :extend="`下面这个是我简历中的过往项目简介，我可以从哪些方面扩展优化？给我一些思路：
+                    \n${project.briefIntroduction}`"
               @update="(content: string) => project.briefIntroduction = content">
               <a-textarea v-model:value="project.briefIntroduction" placeholder="请输入项目简介" addon-before="项目简介" rows="4"
                 style="margin-top: 16px" />
@@ -46,7 +47,8 @@
             <AIEnhancePopover :description="`请帮我润色和优化以下内容，是我简历中的项目要点，
                     使其更加简洁、专业和吸引面试官，
                     你返回的内容换行表示一个要点，不用md语法，不要隔行，
-                    层次清晰分明：\n${project.description}`" @update="(content: string) => project.description = content">
+                    层次清晰分明：\n${project.description}`" :extend="`下面这个是我简历中的项目要点，我可以从哪些方面扩展优化？你的回复用文本就行，不需要md语法，给我一些思路：
+                    \n${project.description}`" @update="(content: string) => project.description = content">
               <a-textarea v-model:value="project.description" placeholder="请输入项目描述" addon-before="描述" rows="4"
                 style="margin-top: 16px" />
             </AIEnhancePopover>
