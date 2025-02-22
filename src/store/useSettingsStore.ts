@@ -11,7 +11,9 @@ export const useSettingsStore = defineStore(
     // 阿里云apikey
     const aliApiKey = ref<string>('');
     // 阿里云调用接口
-    const aliApiUrl = 'https://ai.2911396166.workers.dev/';  //这里用默认的
+    const aliApiUrl = import.meta.env.VITE_API_URL;  //这里用默认的
+    //模型名称
+    const modelName = ref<string>('qwen-turbo');
     // 切换主题
     const toggleTheme = () => {
       isDark.value = !isDark.value;
@@ -39,7 +41,8 @@ export const useSettingsStore = defineStore(
       toggleTheme,
       initTheme,
       aliApiKey,
-      aliApiUrl
+      aliApiUrl,
+      modelName
     };
   },
   {

@@ -22,7 +22,7 @@ export const resumeTemplate = {
       degree: '',         // 学位
       major: '',          // 专业
       startDate: '',      // 开始时间
-      endDate: '',        // 结束时间
+      endDate: '',        // 结束时间1
     }
   ],
 

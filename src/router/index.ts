@@ -27,12 +27,6 @@ const routes: Array<RouteRecordRaw> = [
     meta: { title: 'AI简历 - 网站配置' }
   },
   {
-    path: '/coding',
-    name: 'coding',
-    component: () => import('@/views/coding.vue'),
-    meta: { title: 'AI简历 - 开发中' }
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../views/404.vue')

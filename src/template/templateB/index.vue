@@ -207,11 +207,11 @@ const resume = computed(() => resumeStore.$state);
 .section-divider {
   border: none;
   border-top: 1px solid var(--section-divider-color);
-  margin: 30px 0;
+  margin: 6px 0;
 }
 
 .section {
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 
 .section-title {

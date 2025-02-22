@@ -12,7 +12,7 @@
       @change="(e) => handleThemeChange((e.target as HTMLInputElement).value)" />
 
     <!-- 导出按钮 -->
-    <a-button type="primary" @click="exportToPDF">导出PDF</a-button>
+    <a-button type="primary" @click="exportToPDF" id="export-button">导出PDF</a-button>
   </div>
   <div class="preview" ref="resumePreview" @mousedown="startDragging" @wheel.prevent="handleZoom">
     <div class="resume-content" :style="contentStyle">

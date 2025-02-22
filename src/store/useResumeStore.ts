@@ -68,6 +68,7 @@ export interface ResumeState {
   honors: Honor[];
   summary: string;
   currentId: number;
+  isFirstVisit: boolean;
 }
 
 export const useResumeStore = defineStore('resume', {
@@ -75,13 +76,22 @@ export const useResumeStore = defineStore('resume', {
     // 从 localStorage 获取保存的数据
     const savedResumeData = localStorage.getItem('resumeData');
     const savedCurrentId = localStorage.getItem('currentId');
+    const isFirstVisit = localStorage.getItem('isFirstVisit') === null; // 检查是否首次访问
+
     const currentId = savedCurrentId && !isNaN(Number(savedCurrentId))
       ? Number(savedCurrentId)
       : 1;
     const resumeData = savedResumeData ? JSON.parse(savedResumeData) : resumeTemplate;
+
+    // 如果是首次访问，标记并自动填充数据
+    if (isFirstVisit) {
+      localStorage.setItem('isFirstVisit', 'false');
+    }
+
     return {
-      ...resumeData,  // 恢复之前保存的 resumeData
+      ...resumeData,
       currentId,
+      isFirstVisit, // 添加到state中
     };
   },
   actions: {
@@ -139,7 +149,7 @@ export const useResumeStore = defineStore('resume', {
       try {
         const response = await fetch('/resumeData.json');
         const data = await response.json();
-        this.$state = data;
+        this.$state = { ...data, isFirstVisit: false }; // 保持 isFirstVisit
         this.saveToLocalStorage();
         message.success('数据已自动填充');
       } catch (error) {
@@ -270,6 +280,13 @@ export const useResumeStore = defineStore('resume', {
         this.$state = JSON.parse(stored);
       }
     },
+
+    // 初始化检查
+    async initCheck() {
+      if (this.isFirstVisit) {
+        await this.autoFillData();
+      }
+    }
   }
 });
 

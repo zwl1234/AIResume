@@ -5,9 +5,9 @@ const settingsStore = useSettingsStore();
 export async function sendToQwenAI(prompt: string, onResponse: (responseText: string, isComplete: boolean) => void): Promise<void> {
   const API_URL = settingsStore.aliApiUrl;
   const userApiKey = settingsStore.aliApiKey;
-
+  const model = settingsStore.modelName;
   const requestData = {
-    model: "qwen-turbo",
+    model: model,
     messages: [{ role: "user", content: prompt }],
     stream: true,
     stream_options: {

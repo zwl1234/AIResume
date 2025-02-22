@@ -7,9 +7,9 @@ import { onMounted } from 'vue';
 const settingsStore = useSettingsStore();
 
 // 页面加载时初始化
-onMounted(() => {
+onMounted(async () => {
   const resumeStore = useResumeStore();
-  resumeStore.initializeCurrentId();
+  await resumeStore.initCheck();
   // 初始化当前id
   settingsStore.initTheme();
 });

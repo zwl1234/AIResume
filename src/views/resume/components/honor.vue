@@ -49,6 +49,7 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 import { useResumeStore } from '../../../store';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
+import AIEnhancePopover from './AIEnhancePopover.vue';
 const resumeStore = useResumeStore();
 const honors = computed(() => resumeStore.honors);
 console.log(honors.value)

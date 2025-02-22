@@ -3,21 +3,41 @@
     <a-card class="settings-card" :bordered="false">
       <h2 class="title">必要设置</h2>
 
+      <!-- 说明文字 -->
+      <p class="tips">
+        注意：此处调用接口使用的是 OpenAI 的接口格式
+        （换言之，只要你的大模型接口厂商使用的是 OpenAI 格式，你填入都能正常调用接口）
+      </p>
       <div class="input-group">
-        <label for="api-key">阿里云 API Key（使用大模型）</label>
+        <label for="api-url">大模型名称</label>
+        <a-input id="api-url" v-model:value="settingsStore.modelName" placeholder="请输入模型名称" />
+        <p class="tips">
+          如果用我的反代地址，请使用阿里的接口，如果不会配置，请勿修改，默认为"qwen-turbo"
+          <a href="https://help.aliyun.com/zh/model-studio/developer-reference/use-qwen-by-calling-api" target="_blank">
+            查看阿里百炼官方文档
+          </a>。
+        </p>
+      </div>
+
+      <div class="input-group">
+        <label for="api-key">API Key（使用大模型）</label>
         <a-input id="api-key" v-model:value="settingsStore.aliApiKey" placeholder="请输入 API Key" />
-        <p class="tips">请填写阿里云 API Key 用于调用 AI 模型，<a href="https://bailian.console.aliyun.com/?apiKey=1#/api-key"
-            target="_blank">获取阿里云百炼 APIKey</a>
+        <p class="tips">
+          请填写 API Key 用于调用 AI 模型。如果下面使用的是我提供的反代地址，请前往阿里云获取
+          <a href="https://bailian.console.aliyun.com/?apiKey=1#/api-key" target="_blank">阿里云百炼 API Key</a>。
         </p>
       </div>
 
       <div class="input-group">
         <label for="api-url">阿里云 API URL（使用大模型）</label>
         <a-input id="api-url" v-model:value="settingsStore.aliApiUrl" placeholder="请输入 API URL" />
-        <!-- 描述 -->
-        <p class="tips">请填写阿里云百炼 API URL（经过反向代理后的），用于调用 AI 模型，或者直接用我在cf构建的反代地址：https://ai.2911396166.workers.dev/ <a
-            href="https://help.aliyun.com/zh/model-studio/developer-reference/use-qwen-by-calling-api?spm=a2c4g.11186623.0.0.2c082562wEtpNJ"
-            target="_blank">阿里百炼文档</a>
+        <p class="tips">
+          请填写 API URL（经过反向代理，解决跨域问题），用于调用 AI 模型。或者直接使用我提供的反代地址：
+          https://ai.2911396166.workers.dev/
+          （该地址仅适用于阿里云百炼 API Key）。
+          <a href="https://help.aliyun.com/zh/model-studio/developer-reference/use-qwen-by-calling-api" target="_blank">
+            查看阿里百炼官方文档
+          </a>。
         </p>
       </div>
     </a-card>
@@ -41,31 +61,52 @@ const settingsStore = useSettingsStore();
   max-width: 600px;
   background: var(--card-color);
   padding: 24px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   color: var(--text-color);
 }
 
 .title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   text-align: center;
+  color: var(--primary-color);
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 18px;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
 label {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-color);
 }
 
 .tips {
-  font-size: 12px;
+  font-size: 13px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 10px;
+  border-radius: 8px;
+  color: var(--text-color-secondary);
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.tips a {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.tips a:hover {
+  color: var(--primary-color-hover);
+  text-decoration: underline;
 }
 </style>
