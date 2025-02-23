@@ -76,31 +76,42 @@ const handleFileUpload = (file: File) => {
 .resume {
   display: flex;
   justify-content: space-between;
+  height: calc(100vh - 60px);
+  overflow: hidden;
 }
 
 .left {
   width: 38%;
-  height: 100vh;
+  height: 100%;
   background-color: var(--bg-color);
   transition: all 0.3s;
   min-width: 520px;
+  display: flex;
+  flex-direction: column;
+  /* 改为纵向布局 */
 }
 
 .right {
   width: 62%;
-  height: 100vh;
+  height: 100%;
   position: relative;
-  /* 添加 */
-  overflow: hidden;
-  /* 添加 */
+  overflow-y: auto;
 }
 
 .btn-group {
   height: 50px;
   display: flex;
   justify-content: center;
-  /* 中间间隔 */
   gap: 20px;
   align-items: center;
+  background-color: var(--bg-color);
+  flex-shrink: 0;
+  /* 防止按钮组被压缩 */
+}
+
+/* 让编辑区域占满剩余空间并添加滚动 */
+:deep(.resume-edit) {
+  flex: 1;
+  overflow-y: auto;
 }
 </style>
