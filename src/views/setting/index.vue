@@ -7,14 +7,15 @@
       <p class="tips">
         注意：此处调用接口使用的是 OpenAI 的接口格式
         （换言之，只要你的大模型接口厂商使用的是 OpenAI 格式，你填入都能正常调用接口）
+        <span style="color:red">默认值不会改请不要动！！要是完全不会，就只填apikey就行了，点击链接前往获取key，填入即可</span>
       </p>
       <div class="input-group">
-        <label for="api-url">大模型名称</label>
+        <label for="api-url">大模型名称<span style="color:red">（不懂勿改）</span></label>
         <a-input id="api-url" v-model:value="settingsStore.modelName" placeholder="请输入模型名称" />
         <p class="tips">
-          如果用我的反代地址，请使用阿里的接口，如果不会配置，请勿修改，默认为"qwen-turbo"
-          <a href="https://help.aliyun.com/zh/model-studio/developer-reference/use-qwen-by-calling-api" target="_blank">
-            查看阿里百炼官方文档
+          如果用我的反代地址，请使用阿里的大模型，如果不会配置，请勿修改，默认为"qwen-turbo"
+          <a href="https://bailian.console.aliyun.com/#/model-market" target="_blank">
+            查看阿里百炼模型大全
           </a>。
         </p>
       </div>
@@ -29,7 +30,7 @@
       </div>
 
       <div class="input-group">
-        <label for="api-url">阿里云 API URL（使用大模型）</label>
+        <label for="api-url">API URL<span style="color:red">（不懂勿改）</span></label>
         <a-input id="api-url" v-model:value="settingsStore.aliApiUrl" placeholder="请输入 API URL" />
         <p class="tips">
           请填写 API URL（经过反向代理，解决跨域问题），用于调用 AI 模型。或者直接使用我提供的反代地址：

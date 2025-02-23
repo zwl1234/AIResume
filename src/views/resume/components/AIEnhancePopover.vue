@@ -63,6 +63,8 @@ const handleApply = () => {
 </script>
 
 <template>
+
+
   <a-popover :title="showTitle" trigger="click" placement="right" arrowPointAtCenter="true">
     <template #content v-if="description && description.length > 4">
       <div class="ai-controls">
@@ -92,6 +94,8 @@ const handleApply = () => {
     </template>
     <slot />
   </a-popover>
+
+
 </template>
 
 <style scoped>

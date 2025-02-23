@@ -42,8 +42,6 @@
                 style="margin-top: 16px" />
             </AIEnhancePopover>
 
-
-
             <AIEnhancePopover :description="`请帮我润色和优化以下内容，是我简历中的项目要点，
                     使其更加简洁、专业和吸引面试官，
                     你返回的内容换行表示一个要点，不用md语法，不要隔行，
@@ -72,9 +70,6 @@ import { useResumeStore } from '../../../store';
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import AIEnhancePopover from './AIEnhancePopover.vue';
-// 引入 Ant Design 的图标
-// 确保在主文件（如 main.ts）中全局注册了图标或在需要的地方单独注册
-
 const resumeStore = useResumeStore();
 const projects = computed(() => resumeStore.projects);
 

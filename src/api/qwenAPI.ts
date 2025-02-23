@@ -2,10 +2,11 @@ import { useSettingsStore } from "../store/useSettingsStore";
 import { message } from "ant-design-vue";
 //读取用户设置的API地址和API Key
 const settingsStore = useSettingsStore();
-export async function sendToQwenAI(prompt: string, onResponse: (responseText: string, isComplete: boolean) => void): Promise<void> {
-  const API_URL = settingsStore.aliApiUrl;
-  const userApiKey = settingsStore.aliApiKey;
-  const model = settingsStore.modelName;
+const API_URL = settingsStore.aliApiUrl;
+const userApiKey = settingsStore.aliApiKey;
+const model = settingsStore.modelName;
+export async function sendToQwenAI(prompt: string,
+  onResponse: (responseText: string, isComplete: boolean) => void): Promise<void> {
   const requestData = {
     model: model,
     messages: [{ role: "user", content: prompt }],
@@ -25,7 +26,7 @@ export async function sendToQwenAI(prompt: string, onResponse: (responseText: st
       body: JSON.stringify(requestData),
     });
 
-    // **检查 HTTP 状态码**
+    // 返回情况检查
     if (response.status === 401) {
       onResponse("认证失败，请检查 API Key 是否正确", true);
       message.error("认证失败，请检查 API Key 是否正确");
@@ -35,7 +36,6 @@ export async function sendToQwenAI(prompt: string, onResponse: (responseText: st
       message.error(`请求失败，错误码: ${response.status}`);
       return;
     }
-
     if (!response.body) {
       onResponse("服务器未返回流数据", true);
       throw new Error("服务器未返回流数据");
@@ -45,7 +45,6 @@ export async function sendToQwenAI(prompt: string, onResponse: (responseText: st
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let currentText = "";
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -56,12 +55,10 @@ export async function sendToQwenAI(prompt: string, onResponse: (responseText: st
       for (const line of lines) {
         if (line.startsWith('data: ')) {
           const jsonLine = line.slice(6).trim();
-
           if (jsonLine === '[DONE]') {
             onResponse(currentText, true);
             return;
           }
-
           try {
             const parsedLine = JSON.parse(jsonLine);
             if (Array.isArray(parsedLine.choices) && parsedLine.choices.length === 0) {
@@ -79,7 +76,6 @@ export async function sendToQwenAI(prompt: string, onResponse: (responseText: st
         }
       }
     }
-
   } catch (error) {
     console.error("请求 Qwen AI 失败:", error);
     message.error("请求失败，请稍后重试");
