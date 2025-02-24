@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, onMounted, onBeforeUnmount, nextTick, watch, defineAsyncComponent } from "vue";
+import { ref, reactive, computed, onMounted, onBeforeUnmount, nextTick, watch, defineAsyncComponent, type ComponentOptions } from "vue";
 import { getTemplates } from "../../../utils/getTemplates";
 import type { Template } from "../../../types/template";
 // 引入模板存储中的数据和方法
@@ -118,16 +118,13 @@ const loadCurrentTemplate = () => {
 
 // 导出简历为 PDF
 const exportToPDF = async () => {
-  // 等待模板渲染完成
   await nextTick();
-
   // 创建一个新的容器来渲染简历内容
   const tempContainer = document.createElement("div");
   tempContainer.style.position = "absolute";
   tempContainer.style.top = "-9999px"; // 隐藏容器
   document.body.appendChild(tempContainer);
 
-  // 获取当前选中的模板内容并渲染到新容器中
   const content = document.createElement("div");
   content.classList.add("resume-content");
 
@@ -135,22 +132,17 @@ const exportToPDF = async () => {
   const selectedTemplate = templateStore.currentTemplate;
   if (selectedTemplate?.folderPath) {
     const importPath = `../../../template/${selectedTemplate.folderPath}/index.vue`;
+    const importFunc = templateModules[importPath];
 
-    import(importPath).then(async (module) => {
-      const Component = module.default;
-      // 使用 Vue 的 createApp 方法来挂载组件
+    if (importFunc) {
+      const { default: Component } = await importFunc() as { default: ComponentOptions };
       const app = createApp(Component, {
-        // 将需要传递给组件的 props（例如颜色）传递进去
         colorShades: colorShades.value,
       });
-
       // 挂载组件
       app.mount(content);
-      // 将渲染的内容添加到临时容器中
       tempContainer.appendChild(content);
-      // 等待渲染完成后再生成 PDF
       await nextTick();
-      // 设置 A4 尺寸，并渲染为 PDF
       const options = {
         filename: "resume.pdf",
         margin: 0,
@@ -162,7 +154,10 @@ const exportToPDF = async () => {
         // 清理临时容器
         document.body.removeChild(tempContainer);
       });
-    });
+    } else {
+      console.error(`未找到路径为 ${importPath} 的组件`);
+    }
+
   }
 };
 

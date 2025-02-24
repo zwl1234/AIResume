@@ -34,7 +34,7 @@
         <a-input id="api-url" v-model:value="settingsStore.aliApiUrl" placeholder="请输入 API URL" />
         <p class="tips">
           请填写 API URL（经过反向代理，解决跨域问题），用于调用 AI 模型。或者直接使用我提供的反代地址：
-          https://ai.2911396166.workers.dev/
+          https://resumeai.404.pub/
           （该地址仅适用于阿里云百炼 API Key）。
           <a href="https://help.aliyun.com/zh/model-studio/developer-reference/use-qwen-by-calling-api" target="_blank">
             查看阿里百炼官方文档
