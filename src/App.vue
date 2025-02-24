@@ -1,31 +1,45 @@
 <script setup lang="ts">
 import Header from "./components/Header/index.vue";
 import ThemeSwitcher from './components/ThemeSwitcher/index.vue';
+import NarrowScreen from './components/narrow/index.vue';
 import { useResumeStore } from './store/useResumeStore';
 import { useSettingsStore } from './store/useSettingsStore';
-import { onMounted } from 'vue';
+import { onMounted, ref, onBeforeMount } from 'vue';
+
 const settingsStore = useSettingsStore();
+const showNarrowScreen = ref(false);
+
+// 检查屏幕宽度
+const checkScreenWidth = () => {
+  showNarrowScreen.value = window.innerWidth < 768;
+};
+
+onBeforeMount(() => {
+  checkScreenWidth();
+  window.addEventListener('resize', checkScreenWidth);
+});
 
 // 页面加载时初始化
 onMounted(async () => {
   const resumeStore = useResumeStore();
   await resumeStore.initCheck();
-  // 初始化当前id
   settingsStore.initTheme();
 });
 </script>
 
 <template>
-  <!-- 头部组件 -->
-  <Header />
-  <a-config-provider :theme="{
-    token: {
-      colorPrimary: settingsStore.theme,
-    },
-  }">
-    <router-view />
-  </a-config-provider>
-  <ThemeSwitcher />
+  <narrow-screen v-if="showNarrowScreen" />
+  <template v-else>
+    <Header />
+    <a-config-provider :theme="{
+      token: {
+        colorPrimary: settingsStore.theme,
+      },
+    }">
+      <router-view />
+    </a-config-provider>
+    <ThemeSwitcher />
+  </template>
 </template>
 
 

@@ -3,6 +3,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/weidong-repo/AIResume)](https://github.com/weidong-repo/AIResume/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/weidong-repo/AIResume)](https://github.com/weidong-repo/AIResume/network/members)
 [![GitHub Issues](https://img.shields.io/github/issues/weidong-repo/AIResume)](https://github.com/weidong-repo/AIResume/issues)
+[![GitHub Solved Issues](https://img.shields.io/github/issues-closed/weidong-repo/AIResume)](https://github.com/weidong-repo/AIResume/issues?q=is%3Aissue+is%3Aclosed)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/weidong-repo/AIResume)](https://github.com/weidong-repo/AIResume/commits/main)
 
 ## 📌 项目介绍
