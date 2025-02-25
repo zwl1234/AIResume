@@ -8,7 +8,7 @@
               <span class="value">{{ resume.personalInfo.name }}</span>
               <span class="value">{{ resume.personalInfo.gender }}</span>
               <span class="value">{{ resume.personalInfo.age }}岁</span>
-              <span class="value">前端简历</span>
+              <span class="value">{{ resume.personalInfo.applicationPosition }}</span>
              </div>
           </div>
           <div class="contact-details">
