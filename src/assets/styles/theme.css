@@ -7,6 +7,7 @@
 :root {
   /* 基础颜色 */
   --bg-color: #F3F0FE;
+  --bg-card-color: #ffffff;
   --text-color: #000000;
   --text-color2: #ffffff;
   --primary-color: #672DEA;
@@ -29,6 +30,16 @@
   /* 较亮文本、次级背景 */
   --color-7: #d3cfff;
   /* 最亮，用于背景高亮、阴影 */
+
+  /* 聊天界面变量 */
+  --chat-bg: #f7f7f9;
+  --chat-user-bubble: var(--color-4);
+  --chat-ai-bubble: var(--bg-card-color);
+  --chat-bubble-shadow: rgba(0, 0, 0, 0.05);
+  --chat-input-bg: var(--bg-card-color);
+  --chat-border: #e8e8e8;
+  --chat-input-text: var(--text-color);
+  --chat-placeholder: #999999;
 }
 
 body {

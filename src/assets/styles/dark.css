@@ -1,6 +1,7 @@
 :root.dark {
   /* 基础颜色 */
   --bg-color: #1A1A1A;
+  --bg-card-color: #363636;
   --text-color: #F5F5F7;
   --text-color2: #18181A;
   --primary-color: #656565;
@@ -25,6 +26,17 @@
   /* 最亮，用于标题、强调文字 */
 }
 
+:root[theme='dark'] {
+  /* 聊天界面暗色变量 */
+  --chat-bg: var(--bg-color);
+  --chat-user-bubble: var(--color-4);
+  --chat-ai-bubble: var(--color-2);
+  --chat-bubble-shadow: rgba(0, 0, 0, 0.2);
+  --chat-input-bg: var(--color-2);
+  --chat-border: var(--color-3);
+  --chat-input-text: var(--text-color);
+  --chat-placeholder: var(--color-6);
+}
 
 body {
   transition: background-color 0.3s, color 0.3s;

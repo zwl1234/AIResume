@@ -6,6 +6,7 @@ const settingsStore = useSettingsStore();
 const API_URL = settingsStore.aliApiUrl;
 const userApiKey = settingsStore.aliApiKey;
 const model = settingsStore.modelName;
+// 单轮对话
 export async function sendToQwenAI(prompt: string,
   onResponse: (responseText: string, isComplete: boolean) => void): Promise<void> {
   const requestData = {
@@ -83,7 +84,7 @@ export async function sendToQwenAI(prompt: string,
     onResponse("请求失败，请稍后重试", true);
   }
 }
-
+// 多轮对话
 export async function sendToQwenAIDialogue(messages: DialogueHistory,
   onResponse: (responseText: string, isComplete: boolean) => void): Promise<void> {
 

@@ -26,7 +26,7 @@
         <!-- 导出数据 -->
         <a-button type="default" @click="resumeStore.exportData">
           <download-outlined />
-          导出数据
+          导出JSON
         </a-button>
 
         <!-- 导入按钮 -->
@@ -34,7 +34,7 @@
           accept="application/json">
           <a-button type="dashed">
             <upload-outlined />
-            导入数据
+            导入JSON
           </a-button>
         </a-upload>
       </div>

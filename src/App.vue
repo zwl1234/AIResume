@@ -5,9 +5,9 @@ import NarrowScreen from './components/narrow/index.vue';
 import { useResumeStore } from './store/useResumeStore';
 import { useSettingsStore } from './store/useSettingsStore';
 import { onMounted, ref, onBeforeMount } from 'vue';
-
 const settingsStore = useSettingsStore();
 const showNarrowScreen = ref(false);
+
 
 // 检查屏幕宽度
 const checkScreenWidth = () => {
@@ -36,7 +36,11 @@ onMounted(async () => {
         colorPrimary: settingsStore.theme,
       },
     }">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </a-config-provider>
     <ThemeSwitcher />
   </template>

@@ -10,10 +10,15 @@
             <SvgIcon iconName="templateStore" />
             模板市场
           </router-link></li>
+        <li ref="setting"><router-link to="/aiDeep">
+            <SvgIcon iconName="ai" />
+            AI深度交流
+          </router-link></li>
         <li ref="setting"><router-link to="/setting">
             <SvgIcon iconName="setting" />
             网站配置
           </router-link></li>
+
         <li><router-link to="/resumeDesign">简历模板设计</router-link></li>
       </ul>
     </nav>

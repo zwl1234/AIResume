@@ -82,9 +82,15 @@ https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
 
 - ✅ 简历编辑，数据前端持久化
 
+- ✅ 简历导出为 PDF
+
 - ✅ 简历多模板，支持热插拔切换
 
-- ✅ 三套简历模板，支持前端开发者共创
+- ✅ 多套简历模板，支持前端开发者共创
+
+- ✅ AI简历深挖 利用ai 基于单个项目或者经历的长对话对简历进行深度优化
+
+- ✅ AI模拟面试 针对单一项目或者经历对用户进行面试拷打
 
 - ✅ 模板主题色切换
 
@@ -100,11 +106,11 @@ https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
 
 - ✅ 预填充示例数据
 
-- ✅ 简历导出为 PDF
-
 - ✅ 一键填充虚假数据（快速查看简历效果）
 
 - ✅ 模板市场展示
+
+
 
 ------
 
@@ -114,7 +120,5 @@ https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
 - [ ] **可视化简历设计**（支持非前端用户拖拽设计简历）
 - [ ] **简历布局调整**（左侧拖拽调整右侧内容块顺序）
 - [ ] **数据隐藏功能**（支持隐藏部分信息，但数据仍保留）
-- [ ] 利用ai 基于单个项目或者经历的长对话对简历进行深度优化
-- [ ] 针对单一项目或者经历对用户进行面试拷打
 
 🔥 **欢迎 Star & Fork 本项目，一起完善 AIResume！**

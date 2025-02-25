@@ -5,7 +5,7 @@ export interface AIDialogue {
    * "ai" 表示 AI
    * "system" 表示系统角色
    */
-  role: "user" | "ai" | "system";
+  role: "user" | "assistant" | "system";
 
   /**
    * 对话内容

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 
+
 // 定义路由
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,6 +26,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'setting',
     component: () => import('@/views/setting/index.vue'),
     meta: { title: 'AI简历 - 网站配置' }
+  },
+  {
+    path: '/aiDeep',
+    name: 'aiDeep',
+    component: () => import('@/views/aiDeep/index.vue'),
+    meta: { title: 'AI简历 - AI深度交流', keepAlive: true }
   },
   {
     path: '/:pathMatch(.*)*',
