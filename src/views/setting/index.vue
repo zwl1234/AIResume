@@ -9,6 +9,7 @@
         （换言之，只要你的大模型接口厂商使用的是 OpenAI 格式，你填入都能正常调用接口）
         <span style="color:red">默认值不会改请不要动！！要是完全不会，就只填apikey就行了，点击链接前往获取key，填入即可</span>
       </p>
+
       <div class="input-group">
         <label for="api-url">大模型名称<span style="color:red">（不懂勿改）</span></label>
         <a-input id="api-url" v-model:value="settingsStore.modelName" placeholder="请输入模型名称" />
@@ -24,7 +25,8 @@
         <label for="api-key">API Key（使用大模型）</label>
         <a-input id="api-key" v-model:value="settingsStore.aliApiKey" placeholder="请输入 API Key" />
         <p class="tips">
-          请填写 API Key 用于调用 AI 模型。如果下面使用的是我提供的反代地址，请前往阿里云获取;或者直接使用我提供的API KEY：sk-2eeda3ad3c434537a24d07885e37ee62
+          请填写 API Key 用于调用 AI 模型。如果下面使用的是我提供的反代地址，请前往阿里云获取;或者直接使用我提供的API KEY：
+          <strong>sk-2eeda3ad3c434537a24d07885e37ee62</strong>（默认值）。
           <a href="https://bailian.console.aliyun.com/?apiKey=1#/api-key" target="_blank">阿里云百炼 API Key</a>。
         </p>
       </div>
