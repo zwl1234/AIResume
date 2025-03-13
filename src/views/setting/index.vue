@@ -22,7 +22,7 @@
 
       <div class="input-group">
         <label for="api-key">API Key（使用大模型）</label>
-        <a-input id="api-key" v-model:value="settingsStore.aliApiKey" placeholder="请输入 API Key" />
+        <a-input id="api-key" v-model:value="settingsStore.aliApiKey" placeholder="sk-2eeda3ad3c434537a24d07885e37ee62" />
         <p class="tips">
           请填写 API Key 用于调用 AI 模型。如果下面使用的是我提供的反代地址，请前往阿里云获取
           <a href="https://bailian.console.aliyun.com/?apiKey=1#/api-key" target="_blank">阿里云百炼 API Key</a>。
