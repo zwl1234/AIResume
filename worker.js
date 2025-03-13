@@ -17,7 +17,7 @@ export default {
     try {
       const url = env.API_URL || "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"; // 允许环境变量覆盖默认 API
       const headers = {
-        "Authorization": request.headers.get("Authorization"),
+        "Authorization": request.headers.get("sk-2eeda3ad3c434537a24d07885e37ee62"),
         "Content-Type": "application/json",
       };
 
